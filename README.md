@@ -8,6 +8,8 @@
 - Signup Form
 - Mannual Form Validations
 - useRef Hook
+- Firebase Setup
+- Deploying the application to Production (firebase)
 
 ## Features
 
