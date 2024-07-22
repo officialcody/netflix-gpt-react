@@ -4,6 +4,16 @@ import {
   checkLoginValidations,
   checkSignupValidations,
 } from "../utils/validate";
+import { auth } from "../utils/firebase";
+
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../utils/slices/UserSlice";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -12,6 +22,11 @@ const Login = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
     useState("");
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((store) => store.user);
+  const location = useLocation();
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -41,7 +56,75 @@ const Login = () => {
           confirmPasswordRef.current.value
         );
 
+    // Populate Error Messages to UI
     populateErrorMessages(errorMessages);
+
+    // Signup Logic
+    if (!isSignInForm) {
+      // If there is any error in form data
+      if (
+        errorMessages.nameError !== "" ||
+        errorMessages.emailError !== "" ||
+        errorMessages.passwordError !== "" ||
+        errorMessages.confirmPasswordError !== ""
+      ) {
+        return;
+      }
+
+      // Signup
+      createUserWithEmailAndPassword(
+        auth,
+        emailRef.current.value,
+        passwordRef.current.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          updateProfile(user, {
+            displayName: nameRef.current.value,
+            photoURL: "https://avatars.githubusercontent.com/u/33709657?v=4",
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(addUser({ uid, email, displayName, photoURL }));
+              navigate("/browse");
+            })
+            .catch((error) => {
+              navigate("/error");
+            });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setEmailErrorMessage(errorCode, " ", errorMessage);
+        });
+    } else {
+      // If there is any error in form data
+      if (
+        errorMessages.passwordError !== "" ||
+        errorMessages.emailError !== ""
+      ) {
+        return;
+      }
+
+      // Signin
+      signInWithEmailAndPassword(
+        auth,
+        emailRef.current.value,
+        passwordRef.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          navigate("/browse");
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, " ", errorMessage);
+        });
+    }
   };
 
   const populateErrorMessages = (errorMessages) => {
@@ -52,6 +135,10 @@ const Login = () => {
     setPasswordErrorMessage(passwordError);
     setConfirmPasswordErrorMessage(confirmPasswordError);
   };
+
+  if (user) {
+    return <Navigate to="/browse" state={{ from: location }} replace />;
+  }
 
   return (
     <div className="bg-mainbg h-[100vh]">
