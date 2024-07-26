@@ -13,6 +13,7 @@ import {
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/slices/UserSlice";
+import { DUMMY_USER_ICON_URL } from "../utils/app.constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -77,7 +78,7 @@ const Login = () => {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: nameRef.current.value,
-            photoURL: "https://avatars.githubusercontent.com/u/33709657?v=4",
+            photoURL: DUMMY_USER_ICON_URL,
           })
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
@@ -107,7 +108,7 @@ const Login = () => {
       )
         .then((userCredential) => {
           // Signed in
-          const user = userCredential.user;
+          // const user = userCredential.user;
         })
         .catch((error) => {
           const errorCode = error.code;
