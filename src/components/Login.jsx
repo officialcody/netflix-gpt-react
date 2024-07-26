@@ -11,8 +11,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addUser } from "../utils/slices/UserSlice";
 
 const Login = () => {
@@ -22,11 +21,7 @@ const Login = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
     useState("");
-
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((store) => store.user);
-  const location = useLocation();
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -87,11 +82,8 @@ const Login = () => {
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(addUser({ uid, email, displayName, photoURL }));
-              navigate("/browse");
             })
-            .catch((error) => {
-              navigate("/error");
-            });
+            .catch((error) => {});
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -116,8 +108,6 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          navigate("/browse");
-          console.log(user);
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -135,10 +125,6 @@ const Login = () => {
     setPasswordErrorMessage(passwordError);
     setConfirmPasswordErrorMessage(confirmPasswordError);
   };
-
-  if (user) {
-    return <Navigate to="/browse" state={{ from: location }} replace />;
-  }
 
   return (
     <div className="bg-mainbg h-[100vh]">
