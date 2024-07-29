@@ -6,3 +6,12 @@ export const LOGO_URL =
 
 export const DUMMY_USER_ICON_URL =
   "https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg";
+
+export const API_OPTIONS = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNTEwZmI3OTRjZmNjMzk5Njg1MzM4NDMwOGU3Y2U1NyIsIm5iZiI6MTcyMjI0OTM1NS4xNzM0MSwic3ViIjoiNjA4ZmZiZmQ4NzFiMzQwMDNmOTk4MzUxIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.g3ZD6wZYSZcm_IEMb3LbS6b0NyKA5Tso5plwJR78mK8",
+  },
+};

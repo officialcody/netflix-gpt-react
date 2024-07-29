@@ -13,6 +13,10 @@
 - Create User Account Authentication
 - Implement Signin Api
 - Create Redux Store with userSlice
+- Setup movie slice
+- Fetched data from TMBD Api
+- Updated store with trailer video
+- Embed Youtube video in background of browse page
 
 ## Features
 
