@@ -14,3 +14,5 @@ export const API_OPTIONS = {
     Authorization: process.env.REACT_APP_TMDB_AUTHORIZATION_TOKEN,
   },
 };
+
+export const TMDB_IMG_CDN = "https://image.tmdb.org/t/p/w500";
