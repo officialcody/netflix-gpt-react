@@ -17,6 +17,9 @@
 - Fetched data from TMBD Api
 - Updated store with trailer video
 - Embed Youtube video in background of browse page
+- Secondary Container with Movies List and Movies Cards
+- TMDB Image CDN
+- Custom hooks for all movies API's
 
 ## Features
 
