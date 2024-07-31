@@ -10,6 +10,7 @@ module.exports = {
       },
       colors: {
         background: "rgba(0, 0, 0, 0.6)",
+        backgrounddull: "rgba(0, 0, 0, 0.7)",
       },
     },
   },

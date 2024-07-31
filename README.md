@@ -20,6 +20,8 @@
 - Secondary Container with Movies List and Movies Cards
 - TMDB Image CDN
 - Custom hooks for all movies API's
+- GPT Search Bar
+- How to make application Multilingual
 
 ## Features
 
