@@ -9,6 +9,7 @@ module.exports = {
         mainbg: `url('${BACKGROUND_IMG_URL}')`,
       },
       colors: {
+        backgroundbright: "rgba(0, 0, 0, 0.5)",
         background: "rgba(0, 0, 0, 0.6)",
         backgrounddull: "rgba(0, 0, 0, 0.7)",
       },
