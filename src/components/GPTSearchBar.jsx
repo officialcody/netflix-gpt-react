@@ -1,17 +1,33 @@
 import React, { useRef } from "react";
 import language from "../utils/language.constants";
-import { useSelector } from "react-redux";
-import openai from "../utils/openai";
+import { useDispatch, useSelector } from "react-redux";
 import genAI from "../utils/genAi";
+import { API_OPTIONS } from "../utils/app.constants";
+import { addGptMovieResults } from "../utils/slices/GPTSlice";
 
 const GPTSearchBar = () => {
+  const dispatch = useDispatch();
   const currentLanguage = useSelector((store) => store.uiconfig.language);
   const searchText = useRef(null);
+
+  const searchMovieInTMDB = async (movie) => {
+    const apiData = await fetch(
+      `https://api.themoviedb.org/3/search/movie?query=${movie}&language=en-US&page=1`,
+      API_OPTIONS
+    );
+    const jsonData = await apiData.json();
+    return jsonData.results;
+  };
+
   const handleOnSearch = async (event) => {
+    if (searchText.current.value === "") {
+      return;
+    }
     const query =
       "Act as a movie recommendation system and suggest some movies for the query: " +
       searchText.current.value +
       ". Only provie 5 movie names. Comma seperated like the example result given ahead. Example: Gadar, Sholay, Don, Golmaal, Koi Mil Gaya";
+
     // Using OpenAI Chat API
     // const gptResults = await openai.chat.completions.create({
     //   messages: [{ role: "user", content: gptQuery }],
@@ -21,7 +37,17 @@ const GPTSearchBar = () => {
     // Using Google Generative AI API's
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const genAiResults = await model.generateContent(query);
-    console.log(genAiResults.response.text());
+    const suggestedMoviesNames = genAiResults.response.text().split(",");
+    const promisesArray = suggestedMoviesNames.map((movie) =>
+      searchMovieInTMDB(movie)
+    );
+    const data = await Promise.all(promisesArray);
+    dispatch(
+      addGptMovieResults({
+        movieNames: suggestedMoviesNames,
+        movieResults: data,
+      })
+    );
   };
 
   return (
