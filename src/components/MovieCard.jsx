@@ -4,7 +4,7 @@ import { TMDB_IMG_CDN } from "../utils/app.constants";
 const MovieCard = ({ posterPath }) => {
   if (!posterPath) return null;
   return (
-    <div className="w-48 pr-4 ">
+    <div className="w-36 md:w-48 pr-4 ">
       <img
         className="rounded-lg"
         alt="movie card img"

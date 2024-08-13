@@ -22,6 +22,9 @@
 - Custom hooks for all movies API's
 - GPT Search Bar
 - How to make application Multilingual
+- Generative AI (Google Gemini AI) Integration
+- Get suggestions from GeminiAI and fetch results accosrdingly from TMDB
+- Mobile Responsive
 
 ## Features
 

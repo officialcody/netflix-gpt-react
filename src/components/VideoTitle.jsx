@@ -3,10 +3,10 @@ import React from "react";
 const VideoTitle = ({ title, overview }) => {
   return (
     <div className="w-screen aspect-video px-10 absolute text-white bg-gradient-to-r from-black via-transparent to-black">
-      <div className="absolute bottom-[30%]">
-        <h1 className="text-6xl font-bold">{title}</h1>
-        <p className="py-6 text-lg w-2/5">{overview}</p>
-        <div>
+      <div className="absolute bottom-[0%] md:bottom-[30%]">
+        <h1 className="text-2xl md:text-6xl font-bold">{title}</h1>
+        <p className="hidden md:inline-block py-6 text-lg w-2/5">{overview}</p>
+        <div className="hidden md:block">
           <button className="bg-white text-black p-4 px-12 text-xl rounded-lg hover:bg-opacity-80">
             ▶️ Play
           </button>
